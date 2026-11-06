@@ -1,0 +1,37 @@
+#move to github
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wilapp
+  namespace: dev
+  labels:
+    app: wilapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wilapp
+  template:
+    metadata:
+      labels:
+        app: wilapp
+    spec:
+      containers:
+        - name: wilapp
+          image: wil42/playground:v2
+          ports:
+            - containerPort: 8888
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: wilapp-service
+  namespace: dev
+spec:
+  selector:
+    app: wilapp
+  ports:
+    - port: 80
+      targetPort: 8888
+---
